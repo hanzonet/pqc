@@ -3,9 +3,9 @@ name = "hanzonet-pqc"
 description = "Hanzo Network — post-quantum cryptography (ML-KEM, ML-DSA, SLH-DSA, hybrid, privacy tiers, attestation)"
 license = "MIT"
 version = "1.1.21"
-edition = { workspace = true }
-repository = "https://github.com/hanzonet/network"
-authors = { workspace = true }
+edition = "2021"
+repository = "https://github.com/hanzonet/pqc"
+authors = ["Nico Arqueros <nico@hanzo.ai>"]
 
 [lib]
 name = "hanzo_pqc"
@@ -23,45 +23,87 @@ tee-io = []
 
 [dependencies]
 # Core PQC implementation - using latest version
-oqs = { version = "0.11", default-features = false, features = ["std", "ml_kem", "ml_dsa"] }
 
 # Classical crypto for hybrid mode
-x25519-dalek = { workspace = true, optional = true }
-ed25519-dalek = { workspace = true }
 
 # KDF and utilities
 hkdf = "0.12"
-sha2 = { workspace = true }
 sha3 = "0.10"
-blake3 = { workspace = true }
 
 # Serialization
-serde = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
-bincode = { workspace = true }
-base64 = { workspace = true }
 
 # Error handling
-thiserror = { workspace = true }
-anyhow = { workspace = true }
 
 # Async support
-async-trait = { workspace = true }
-tokio = { workspace = true }
 
 # Random number generation (FIPS compliant)
-rand = { workspace = true }
-getrandom = { version = "0.2", features = ["std"] }
 
 # Attestation support
-hex = { workspace = true }
-zeroize = { version = "1.8", features = ["derive"] }
 
+[dependencies.zeroize]
+version = "1.8"
+features = ["derive"]
+[dependencies.hex]
+version = "=0.4.3"
+
+[dependencies.getrandom]
+version = "0.2"
+features = ["std"]
+[dependencies.rand]
+version = "=0.8.5"
+
+[dependencies.tokio]
+version = "1.36"
+features = ["rt", "rt-multi-thread", "macros", "fs", "io-util", "net", "sync", "time"]
+
+[dependencies.async-trait]
+version = "0.1.74"
+
+[dependencies.anyhow]
+version = "1.0.94"
+
+[dependencies.thiserror]
+version = "2.0.3"
+
+[dependencies.base64]
+version = "0.22.0"
+
+[dependencies.bincode]
+version = "1.3.3"
+
+[dependencies.serde_json]
+version = "1.0.117"
+
+[dependencies.serde]
+version = "1.0.219"
+features = ["derive"]
+[dependencies.blake3]
+version = "1.2.0"
+
+[dependencies.sha2]
+version = "0.10"
+
+[dependencies.ed25519-dalek]
+version = "2.1.1"
+features = ["rand_core"]
+
+[dependencies.x25519-dalek]
+version = "2.0.1"
+features = ["static_secrets"]
+optional = true
+
+[dependencies.oqs]
+version = "0.11"
+default-features = false
+features = ["std", "ml_kem", "ml_dsa"]
 [dev-dependencies]
-tokio-test = { workspace = true }
-criterion = { workspace = true }
 proptest = "1.0"
 
+[dev-dependencies.criterion]
+version = "0.5"
+
+[dev-dependencies.tokio-test]
+version = "0.4"
 [[bench]]
 name = "pqc_benchmarks"
 harness = false
